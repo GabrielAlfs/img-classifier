@@ -8,8 +8,8 @@
     </thead>
     <tbody>
       <tr v-for="(prediction, index) in results" :key="index">
-        <td>{{ prediction[0] }}</td>
-        <td>{{ (prediction[1] * 100).toFixed(2) }}%</td>
+        <td>{{ prediction.label }}</td>
+        <td>{{ (prediction.confidence * 100).toFixed(2) }}%</td>
       </tr>
     </tbody>
   </v-simple-table>

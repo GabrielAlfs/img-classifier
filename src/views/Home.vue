@@ -18,7 +18,7 @@
         <div
           v-if="selectedImage"
         >
-          <PreviewImage :imgUrl="imgURL"/>
+          <PreviewImage :imgUrl="imgURL" />
           <v-row align="center" justify="center">
             <v-btn
               type="submit"
@@ -44,11 +44,15 @@
 </template>
 
 <script>
-import axios from 'axios';
+import * as ml5 from 'ml5';
 
 /* eslint-disable import/no-unresolved */
 import Results from '@/components/Results.vue';
 import PreviewImage from '@/components/PreviewImage.vue';
+
+const classifier = ml5.imageClassifier('MobileNet', () => {
+  console.log('Model loaded!');
+});
 
 export default {
   data: () => ({
@@ -60,12 +64,15 @@ export default {
   }),
   methods: {
     predict() {
-      const formData = new FormData();
-      formData.append('image_file', this.imgFile);
       this.loading = true;
-      axios.post('https://imgclass1.herokuapp.com/predict', formData).then((res) => {
-        this.loading = false;
-        this.results = res.data;
+      const img = document.createElement('img');
+      img.src = this.imgURL;
+      classifier.predict(img, 5, (err, res) => {
+        if (!err) {
+          this.loading = false;
+          console.log(res);
+          this.results = res;
+        }
       });
     },
     onImageChange() {

@@ -4,8 +4,8 @@
       :src="imgUrl"
       lazy-src="https://picsum.photos/id/11/100/60"
       aspect-ratio="1"
-      max-width="224"
-      max-height="224"
+      max-width="300"
+      max-height="300"
     >
       <template v-slot:placeholder>
         <v-row
